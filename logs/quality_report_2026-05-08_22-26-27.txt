@@ -1,0 +1,14 @@
+==================================================
+  DATA QUALITY REPORT
+  Run at: 2026-05-08_22-26-27
+==================================================
+
+Total issues found: 2
+
+Issues:
+  ⚠️  [products] 'product_category_name' has 610 null values
+  ⚠️  [products] 4 rows with zero or negative weight
+
+==================================================
+  END OF REPORT
+==================================================

@@ -52,6 +52,8 @@ def load_to_staging(df, table_name, engine):
     )
 
     print(f"✅ {table_name} loaded — {len(df):,} rows")
+    
+    
 
 
 # -----------------------------------------------

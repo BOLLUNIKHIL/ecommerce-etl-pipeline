@@ -281,16 +281,56 @@ def check_dates(orders):
     print()
     
 
+# -----------------------------------------------
+# STEP 7: Save quality report to a file
+# -----------------------------------------------
+def save_report():
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    report_path = f"logs/quality_report_{timestamp}.txt"
+
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("=" * 50 + "\n")
+        f.write("  DATA QUALITY REPORT\n")
+        f.write(f"  Run at: {timestamp}\n")
+        f.write("=" * 50 + "\n\n")
+
+        if len(issues_found) == 0:
+            f.write("All checks passed — no issues found!\n")
+        else:
+            f.write(f"Total issues found: {len(issues_found)}\n\n")
+            f.write("Issues:\n")
+            for issue in issues_found:
+                f.write(f"{issue}\n")
+
+        f.write("\n" + "=" * 50 + "\n")
+        f.write("  END OF REPORT\n")
+        f.write("=" * 50 + "\n")
+
+    print(f"\n Report saved to: {report_path}")
+    return report_path
+
+
+
 if __name__ == "__main__":
     engine = get_engine()
 
-    # Load staging tables
     customers, products, orders, order_items = load_staging_tables(engine)
 
-    # Run all 4 checks
     check_nulls(customers, products, orders, order_items)
     check_duplicates(customers, products, orders, order_items)
     check_invalid_values(products, orders, order_items)
     check_dates(orders)
 
-    print(f"Issues found so far: {len(issues_found)}")
+    print("=" * 50)
+    print("  QUALITY CHECK SUMMARY")
+    print("=" * 50)
+    if len(issues_found) == 0:
+        print("All checks passed — no issues found!")
+    else:
+        print(f"Total issues found: {len(issues_found)}")
+        for issue in issues_found:
+            print(issue)
+
+    save_report()
+
+    print("\nQuality checks complete!")
